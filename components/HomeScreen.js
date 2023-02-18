@@ -5,30 +5,30 @@ import { View } from "react-native";
 export const HomeScreen = ({navigation}) => {
   return (
     <>
-      <View style={styles.container}>
+      <View style={styles.section}>
         <View>
           <Text style={styles.heading}>
-            Parental Control
-          </Text>
-          <Text style={styles.heading}>
+            Parental Control{"\n"}
             for Any Game
           </Text>
         </View>
 
-        <PrimaryButton
-          title={"Start Now"}
-          type={'primary'}
-          onPress={() =>
-            navigation.navigate('Profile')
-          }
-        />
-        <PrimaryButton
-          title={"Start Now"}
-          type={'secondary'}
-          onPress={() =>
-            navigation.navigate('Profile')
-          }
-        />
+        <View>
+          <PrimaryButton
+            title={"Getting Started"}
+            type={'primary'}
+            onPress={() =>
+              navigation.navigate('Profile')
+            }
+          />
+          <PrimaryButton
+            title={"How to use"}
+            type={'secondary'}
+            onPress={() =>
+              navigation.navigate('Profile')
+            }
+          />
+        </View>
       </View>
     </>
   );
@@ -36,9 +36,9 @@ export const HomeScreen = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
-  container: {
+  section: {
     flex: 1,
-    marginHorizontal: "auto",
+    justifyContent:'space-between',
     backgroundColor: "white",
     padding:24
   },

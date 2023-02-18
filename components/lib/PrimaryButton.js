@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor:'#FC4E4E',
-    borderRadius:'15px',
+    borderRadius:12,
 
     marginTop:7
   },
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor:'#F0F0F0',
-    borderRadius:'15px',
+    borderRadius:12,
 
     marginTop:7
   },
