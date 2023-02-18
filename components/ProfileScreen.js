@@ -1,21 +1,44 @@
 import { StyleSheet, Text, View } from "react-native";
 import PrimaryButton from "./lib/PrimaryButton";
+import { Container } from "./lib/Container";
+import { Game } from "./lib/Game";
+import { gamesData } from "../util/gamesDummyData";
 
 export const ProfileScreen = ({navigation}) => {
   return (
     <View style={styles.section}>
       <Text style={styles.heading1}>Welcome</Text>
-      <View style={styles.container}>
-        <Text style={styles.heading2}>Welcome</Text>
-        <Text
-          style
-        >bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh bruh</Text>
-        <PrimaryButton
-          title={"Pause Current Game"}
-          type={'primary'}
-          // onPress={() =>}
-        />
+      <View style={{marginBottom:10}}>
+        <Container>
+          <Text style={styles.subHeading}>Playing</Text>
+          <Text style={styles.heading2}>Roblox</Text>
+          <Text
+            style={styles.text}
+          >
+            ... has been playing for ... minutes.
+          </Text>
+          <PrimaryButton
+            title={"Pause Current Game"}
+            type={'primary'}
+            // onPress={() =>}
+          />
+        </Container>
       </View>
+      <PrimaryButton
+        title={"Add Game to Moniter"}
+        type={'secondary'}
+        // onPress={() =>}
+      />
+      {
+        gamesData.map((game)=>(
+          <Game
+            key={game.name}
+            title={game.name}
+            description={game.description}
+            src={{uri:game.src}}
+          />
+        ))
+      }
     </View>
   )
   
@@ -36,15 +59,21 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom:10
   },
-  container:{
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor:'#F0F0F0',
-    shadowColor: '#BEBEBE',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    borderRadius:20,
-    padding:20
-  }
+  subHeading:{
+    fontWeight:'bold',
+    letterSpacing: -0.5,
+    fontSize: 13,
+    color: '#A9A9A9',
+    marginBottom:10
+  },
+  heading2: {
+    fontWeight:'bold',
+    letterSpacing: -0.5,
+    fontSize: 20,
+    color: '#000',
+    marginBottom:10
+  },
+  text:{
+    marginBottom:10
+  },
 });

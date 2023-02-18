@@ -13,6 +13,7 @@ export const HomeScreen = ({navigation}) => {
           </Text>
         </View>
 
+
         <View>
           <PrimaryButton
             title={"Getting Started"}
