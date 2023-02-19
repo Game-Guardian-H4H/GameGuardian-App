@@ -115,7 +115,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
   };
 
   const forceQuit = () => {
-    setTime(-time);
+    setTime(0);
     callModifyMaxTime();
   };
 
