@@ -14,6 +14,8 @@ import Icon from 'react-native-vector-icons/Feather';
 // const Stack = createNativeStackNavigator();
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Onboarding from './components/Onboarding';
+import UserId from './components/UserId';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,70 +27,15 @@ function App() {
 
   const [userId, setUserId] = React.useState('');
 
-  const [userInput, setUserInput] = React.useState('');
-  const [passwordInput, setPasswordInput] = React.useState('');
 
   return (
     <>
       {starting ?
-        <View
-          style={{
-            padding:24,
-            flex:1,
-            justifyContent:'space-between'
-          }}
-        >
-          <Text style={styles.heading1}>
-            Welcome to{"\n"}
-            Game Guardian
-          </Text>
-          <PrimaryButton            
-            type={"primary"}
-            onPress={()=>setStarting(false)}
-            title={"Next"}
-          />
-        </View>:
+        <Onboarding next={()=>setStarting(false)}/>:
         <>
           {
             !userId ?
-            <View
-              style={{
-                flex:1,
-                alignItems:'center',
-                justifyContent:'center',
-              }}
-            >
-              <Container>
-                <View
-                  style={{
-                    marginBottom:15,
-                    minWidth:300
-                  }}
-                >
-                  <Text style={styles.heading1}>
-                    Welcome
-                  </Text>
-                  <Text>
-                    Insert your user ID.
-                  </Text>
-                </View>
-                <Input
-                  placeholder={"Input user ID"}
-                  onChange={setUserInput}
-                  value={userInput}
-                />
-                <Input
-                  placeholder={"Password"}
-                  onChange={setPasswordInput}
-                  value={passwordInput}
-                />
-                <PrimaryButton
-                  type={'filled'}
-                  title={'Get Started'}
-                  onPress={()=>setUserId(userInput)}
-                />
-              </Container>
-            </View>:
+            <UserId setUserId={setUserId}/>:
             <NavigationContainer>
               <Tab.Navigator>
                 <Tab.Screen
@@ -125,15 +72,5 @@ function App() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  heading1: {
-    fontWeight: "bold",
-    letterSpacing: -1,
-    fontSize: 30,
-    color: "#000",
-    marginBottom: 10,
-  },
-})
 
 export default App;
