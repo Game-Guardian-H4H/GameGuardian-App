@@ -18,6 +18,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
   const [paused, setPaused] = useState(false);
   const [message, setMessage] = useState("");
   const [time, setTime] = useState(0);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     fetch(`${END_POINT_BASE}/users/${userId}`)
@@ -28,8 +29,9 @@ export const ProfileScreen = ({ navigation, userId }) => {
         throw new Error("Network response was not ok.");
       })
       .then((data) => {
-        console.log("Response data:", data);
+        console.log("Response data:", data, data.maxTimeAllowed);
         setPaused(data.isPaused);
+        setUser(data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -88,6 +90,29 @@ export const ProfileScreen = ({ navigation, userId }) => {
     }
   };
 
+  const callModifyMaxTime = () => {
+    setLoading(true);
+    try {
+      fetch(`${END_POINT_BASE}/users/${userId}/maxTimeAllowed`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          maxTimeAllowed: time,
+        }),
+      })
+        .then((response) => {
+          setLoading(false);
+          setTimeModalVisible(false);
+        })
+        .catch((error) => console.error(error));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <View style={styles.section}>
       <View
@@ -101,7 +126,13 @@ export const ProfileScreen = ({ navigation, userId }) => {
             <Text style={headings.subHeading}>Currently Playing</Text>
           )}
           <Text style={headings.heading2}>Roblox</Text>
-          <Text style={styles.text}>... has been playing for ... minutes.</Text>
+          <Text style={styles.text}>
+            Hack4SegFault has been playing for {user.currentTime} minutes for
+            today.
+          </Text>
+          <Text style={styles.text}>
+            Max allowed time {user.maxTimeAllowed}
+          </Text>
           <PrimaryButton
             name={"pause"}
             title={paused ? "Paused" : "Pause Current Game"}
@@ -143,9 +174,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
         >
           <View>
             <Text style={headings.heading1}>Set Time</Text>
-            <Text style={styles.text}>
-              Solidify max gaming time.
-            </Text>
+            <Text style={styles.text}>Solidify max gaming time.</Text>
             <Input
               placeholder={"Input time in minutes"}
               onChange={setTime}
@@ -155,7 +184,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
             <PrimaryButton
               title={"Set Time"}
               type={"filled"}
-              onPress={() => alert("Do something")}
+              onPress={callModifyMaxTime}
             />
           </View>
         </ModalContainer>
