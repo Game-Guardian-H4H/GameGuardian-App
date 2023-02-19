@@ -126,13 +126,10 @@ export const ProfileScreen = ({ navigation, userId }) => {
             <Text style={headings.subHeading}>Currently Playing</Text>
           )}
           <Text style={headings.heading2}>Roblox</Text>
-          <Text style={styles.text}>
-            Hack4SegFault has been playing for {user.currentTime} minutes for
-            today.
-          </Text>
-          <Text style={styles.text}>
-            Max allowed time {user.maxTimeAllowed}
-          </Text>
+          <Text style={styles.text}>Started playing: {}</Text>
+          <Text style={styles.text}>Remaining Time: {}</Text>
+          {user.currentTime > 0 && <Text style={styles.text}>Playing for {user.currentTime}</Text>}
+          {user.maxTimeAllowed > 0 && <Text style={styles.text}>Max allowed time {user.maxTimeAllowed}</Text>}
           <PrimaryButton
             name={"pause"}
             title={paused ? "Paused" : "Pause Current Game"}
