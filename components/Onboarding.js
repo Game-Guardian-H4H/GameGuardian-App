@@ -7,6 +7,7 @@ export default function Onboarding({next}) {
     <View
       style={{
         padding:24,
+        paddingTop:70,
         flex:1,
         justifyContent:'space-between'
       }}
