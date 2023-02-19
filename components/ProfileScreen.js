@@ -115,7 +115,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
   };
 
   const forceQuit = () => {
-    setTime(-1);
+    setTime(-time);
     callModifyMaxTime();
   };
 
@@ -133,15 +133,17 @@ export const ProfileScreen = ({ navigation, userId }) => {
           )}
           <Text style={headings.heading2}>Roblox</Text>
           <Text style={styles.text}>H4HSegFault Started playing</Text>
-          <Text style={styles.text}>
-            Remaining Time: {user.maxTimeAllowed - user.currentTime}
-          </Text>
-          {user.currentTime ? (
+          {user.maxTimeAllowed - user.currentTime > 0 ? (
+            <Text style={styles.text}>
+              Remaining Time: {user.maxTimeAllowed - user.currentTime}
+            </Text>
+          ) : null}
+          {user.currentTime > 0 ? (
             <Text style={styles.text}>
               Playing for {user.currentTime} minues today
             </Text>
           ) : null}
-          {user.maxTimeAllowed ? (
+          {user.maxTimeAllowed > 0 ? (
             <Text style={styles.text}>
               Max allowed time {user.maxTimeAllowed}
             </Text>
