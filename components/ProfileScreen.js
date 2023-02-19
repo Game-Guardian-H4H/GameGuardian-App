@@ -12,9 +12,12 @@ import { headings } from "./lib/headings";
 
 export const ProfileScreen = ({ navigation, userId }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [timeModalVisible, setTimeModalVisible] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [paused, setPaused] = useState(false);
   const [message, setMessage] = useState("");
+  const [time, setTime] = useState(0);
 
   useEffect(() => {
     fetch(`${END_POINT_BASE}/users/${userId}`)
@@ -105,6 +108,11 @@ export const ProfileScreen = ({ navigation, userId }) => {
             type={paused ? "secondary" : "primary"}
             onPress={() => setConfirmModalVisible(true)}
           />
+          <PrimaryButton
+            title={"Set Time"}
+            type={"secondary"}
+            onPress={() => setTimeModalVisible(true)}
+          />
         </Container>
       </View>
 
@@ -127,11 +135,37 @@ export const ProfileScreen = ({ navigation, userId }) => {
       <Modal
         animationType="slide"
         transparent={true}
+        visible={timeModalVisible}
+        onRequestClose={() => setTimeModalVisible(!timeModalVisible)}
+      >
+        <ModalContainer
+          closeModal={() => setTimeModalVisible(!timeModalVisible)}
+        >
+          <View>
+            <Text style={headings.heading1}>Set Time</Text>
+            <Text style={styles.text}>
+              Solidify max gaming time.
+            </Text>
+            <Input
+              placeholder={"Input time in minutes"}
+              onChange={setTime}
+              value={time}
+              type={"numeric"}
+            />
+            <PrimaryButton
+              title={"Set Time"}
+              type={"filled"}
+              onPress={() => alert("Do something")}
+            />
+          </View>
+        </ModalContainer>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
         visible={confirmModalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setConfirmModalVisible(!confirmModalVisible);
-        }}
+        onRequestClose={() => setConfirmModalVisible(!confirmModalVisible)}
       >
         <ModalContainer
           closeModal={() => setConfirmModalVisible(!confirmModalVisible)}
