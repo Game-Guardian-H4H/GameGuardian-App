@@ -16,8 +16,6 @@ export const ProfileScreen = ({ navigation, userId }) => {
   const [paused, setPaused] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [success, setSuccess] = useState(false);
-
   const callPauseAPI = () => {
     setLoading(true);
     try {
@@ -34,18 +32,12 @@ export const ProfileScreen = ({ navigation, userId }) => {
       }).then((response) => {
         setLoading(false);
         setConfirmModalVisible(false);
-        setSuccess(false);
+        alert("Modal has been closed.")
       }).catch((error) => console.error(error));
     } catch (error) {
       console.error("Error:", error);
     }
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSuccess(false);
-    }, 3000)
-  }, [success])
   
 
   return (
@@ -56,11 +48,6 @@ export const ProfileScreen = ({ navigation, userId }) => {
           marginBottom: 5,
         }}
       >
-        {success &&
-          <Container>
-            <Text style={headings.heading2}>Paused</Text>
-          </Container>
-        }
         <Container>
           {!paused && (
             <Text style={headings.subHeading}>Currently Playing</Text>
