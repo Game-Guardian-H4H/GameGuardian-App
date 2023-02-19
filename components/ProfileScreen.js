@@ -16,6 +16,25 @@ export const ProfileScreen = ({ navigation, userId }) => {
   const [paused, setPaused] = useState(false);
   const [message, setMessage] = useState("");
 
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    fetch(`${END_POINT_BASE}/users/${userId}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then((data) => {
+        console.log("Response data:", data);
+        setPaused(data.isPaused);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [userId, paused]);
+
   const callPauseAPI = () => {
     setLoading(true);
     try {
@@ -29,16 +48,50 @@ export const ProfileScreen = ({ navigation, userId }) => {
           isPaused: true,
           pauseMessage: message,
         }),
-      }).then((response) => {
-        setLoading(false);
-        setConfirmModalVisible(false);
-        alert("Modal has been closed.")
-      }).catch((error) => console.error(error));
+      })
+        .then((response) => {
+          setLoading(false);
+          setConfirmModalVisible(false);
+          setSuccess(true);
+          setPaused(true);
+        })
+        .catch((error) => console.error(error));
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  
+
+  const callUnPauseAPI = () => {
+    setLoading(true);
+    try {
+      fetch(`${END_POINT_BASE}/users/${userId}/pause`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isPaused: false,
+          pauseMessage: "",
+        }),
+      })
+        .then((response) => {
+          setLoading(false);
+          setConfirmModalVisible(false);
+          setPaused(false);
+          setMessage("");
+        })
+        .catch((error) => console.error(error));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccess(false);
+    }, 3000);
+  }, [success]);
 
   return (
     <View style={styles.section}>
@@ -48,6 +101,11 @@ export const ProfileScreen = ({ navigation, userId }) => {
           marginBottom: 5,
         }}
       >
+        {success && (
+          <Container>
+            <Text style={headings.heading2}>Paused</Text>
+          </Container>
+        )}
         <Container>
           {!paused && (
             <Text style={headings.subHeading}>Currently Playing</Text>
@@ -91,7 +149,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
         <ModalContainer
           closeModal={() => setConfirmModalVisible(!confirmModalVisible)}
         >
-          {paused ? 
+          {paused ? (
             <View>
               <Text style={headings.heading1}>Warning</Text>
               <Text style={styles.text}>
@@ -101,17 +159,15 @@ export const ProfileScreen = ({ navigation, userId }) => {
               <PrimaryButton
                 title={"Unpause"}
                 type={"primary"}
-                onPress={() => {
-                  setPaused(false);
-                  alert("Unpausing...");
-                }}
+                onPress={callUnPauseAPI}
               />
               <PrimaryButton
                 title={"Force Exit"}
                 type={"filled"}
                 onPress={() => alert("Do something")}
               />
-            </View>:
+            </View>
+          ) : (
             <View>
               <Text style={headings.heading1}>Warning</Text>
               <Text style={styles.text}>
@@ -139,7 +195,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
                 </Text>
               </AnimatedLoader>
             </View>
-          }
+          )}
         </ModalContainer>
       </Modal>
     </View>
