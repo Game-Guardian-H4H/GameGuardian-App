@@ -61,6 +61,7 @@ export const ProfileScreen = ({ navigation }) => {
           <Text style={styles.heading2}>Roblox</Text>
           <Text style={styles.text}>... has been playing for ... minutes.</Text>
           <PrimaryButton
+            name={"pause"}
             title={paused ? "Paused" : "Pause Current Game"}
             type={paused ? "secondary" : "primary"}
             onPress={() => setConfirmModalVisible(true)}

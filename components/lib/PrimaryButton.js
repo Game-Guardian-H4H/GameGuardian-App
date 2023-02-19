@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import { Align } from './Align';
+import Icon from 'react-native-vector-icons/Feather';
+
 
 export default function PrimaryButton(props) {
   let textColor;
@@ -15,25 +16,16 @@ export default function PrimaryButton(props) {
       style={styles[props.type]}
       onPress={props.onPress}
     >
-      <Align>
-        {props.name &&        
-          <Icon
-            name={props.name}
-            style={styles[textColor]}
-            size={20}
-            color="black"
-          />
-        }
-        <Text style={[styles.text, styles[textColor]]}>
-          {props.title}
-        </Text>
-      </Align>
+      <Text style={[styles.text, styles[textColor]]}>
+        {props.title}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   primary: {
+    display:'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
@@ -46,6 +38,7 @@ const styles = StyleSheet.create({
     marginTop:7
   },
   secondary: {
+    display:'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,

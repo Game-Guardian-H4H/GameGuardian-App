@@ -12,13 +12,13 @@ export const Game = (props) => {
           source={props.src}
         />
         <View>
-          <Text>{props.title}</Text>
-          <Text>{props.description}</Text>
+          <Text style={{fontWeight:'bold'}}>{props.title}</Text>
+          <Text style={{color:'gray'}}>{props.description}</Text>
         </View>
       </Align>
-      <IconButton
+      {/* <IconButton
         name={"bar-chart-2"}
-      />
+      /> */}
     </View>
   )
 }

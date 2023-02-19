@@ -5,6 +5,7 @@ export const Container = ({children}) => {
   return (
     <View
       style={{
+        minWidth:350,
         backgroundColor: "white",
         borderWidth: 1,
         borderColor:'#F0F0F0',
