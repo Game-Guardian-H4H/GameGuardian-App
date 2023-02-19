@@ -16,8 +16,6 @@ export const ProfileScreen = ({ navigation, userId }) => {
   const [paused, setPaused] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [success, setSuccess] = useState(false);
-
   useEffect(() => {
     fetch(`${END_POINT_BASE}/users/${userId}`)
       .then((response) => {
@@ -52,7 +50,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
         .then((response) => {
           setLoading(false);
           setConfirmModalVisible(false);
-          setSuccess(true);
+          alert("Modal has been closed.");
           setPaused(true);
         })
         .catch((error) => console.error(error));
@@ -87,12 +85,6 @@ export const ProfileScreen = ({ navigation, userId }) => {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setSuccess(false);
-    }, 3000);
-  }, [success]);
-
   return (
     <View style={styles.section}>
       <View
@@ -101,11 +93,6 @@ export const ProfileScreen = ({ navigation, userId }) => {
           marginBottom: 5,
         }}
       >
-        {success && (
-          <Container>
-            <Text style={headings.heading2}>Paused</Text>
-          </Container>
-        )}
         <Container>
           {!paused && (
             <Text style={headings.subHeading}>Currently Playing</Text>
