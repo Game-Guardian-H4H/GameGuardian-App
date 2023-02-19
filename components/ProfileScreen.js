@@ -55,7 +55,6 @@ export const ProfileScreen = ({ navigation, userId }) => {
         .then((response) => {
           setLoading(false);
           setConfirmModalVisible(false);
-          alert("Modal has been closed.");
           setPaused(true);
         })
         .catch((error) => console.error(error));
@@ -106,6 +105,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
         .then((response) => {
           setLoading(false);
           setTimeModalVisible(false);
+          setUser({ ...user, maxTimeAllowed: time });
         })
         .catch((error) => console.error(error));
     } catch (error) {
@@ -126,10 +126,20 @@ export const ProfileScreen = ({ navigation, userId }) => {
             <Text style={headings.subHeading}>Currently Playing</Text>
           )}
           <Text style={headings.heading2}>Roblox</Text>
-          <Text style={styles.text}>Started playing: {}</Text>
-          <Text style={styles.text}>Remaining Time: {}</Text>
-          {user.currentTime > 0 && <Text style={styles.text}>Playing for {user.currentTime}</Text>}
-          {user.maxTimeAllowed > 0 && <Text style={styles.text}>Max allowed time {user.maxTimeAllowed}</Text>}
+          <Text style={styles.text}>H4HSegFault Started playing</Text>
+          <Text style={styles.text}>
+            Remaining Time: {user.maxTimeAllowed - user.currentTime}
+          </Text>
+          {user.currentTime ? (
+            <Text style={styles.text}>
+              Playing for {user.currentTime} minues today
+            </Text>
+          ) : null}
+          {user.maxTimeAllowed ? (
+            <Text style={styles.text}>
+              Max allowed time {user.maxTimeAllowed}
+            </Text>
+          ) : null}
           <PrimaryButton
             name={"pause"}
             title={paused ? "Paused" : "Pause Current Game"}
