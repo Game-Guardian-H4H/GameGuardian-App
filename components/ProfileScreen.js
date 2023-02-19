@@ -21,21 +21,30 @@ export const ProfileScreen = ({ navigation, userId }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    fetch(`${END_POINT_BASE}/users/${userId}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((data) => {
-        console.log("Response data:", data, data.maxTimeAllowed);
-        setPaused(data.isPaused);
-        setUser(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    let intervalId = null;
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${END_POINT_BASE}/users/${userId}`);
+        const json = await response.json();
+        setPaused(json.isPaused);
+        setUser(json);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+
+    intervalId = setInterval(() => {
+      if (!paused) {
+        fetchData();
+      }
+    }, 2000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [userId, paused]);
 
   const callPauseAPI = () => {
@@ -119,6 +128,27 @@ export const ProfileScreen = ({ navigation, userId }) => {
     callModifyMaxTime();
   };
 
+  const TextWithColor = (curr, max) => {
+    let color;
+    let n = ((max - curr) / max) * 100;
+    if (n > 75) {
+      color = "green";
+    } else if (n > 50) {
+      color = "orange";
+    } else {
+      color = "red";
+    }
+
+    const textStyle = {
+      color: color,
+      fontSize: 16,
+      fontWeight: "bold",
+      // add any other styles you need here
+    };
+
+    return <Text style={textStyle}>{max - curr} minutes</Text>;
+  };
+
   return (
     <View style={styles.section}>
       <View
@@ -132,20 +162,21 @@ export const ProfileScreen = ({ navigation, userId }) => {
             <Text style={headings.subHeading}>Currently Playing</Text>
           )}
           <Text style={headings.heading2}>Roblox</Text>
-          <Text style={styles.text}>H4HSegFault Started playing</Text>
+          <Text style={styles.text}>H4HSegFault player stats:</Text>
           {user.maxTimeAllowed - user.currentTime > 0 ? (
             <Text style={styles.text}>
-              Remaining Time: {user.maxTimeAllowed - user.currentTime}
+              Remaining Time:{" "}
+              {TextWithColor(user.currentTime, user.maxTimeAllowed)}
             </Text>
           ) : null}
           {user.currentTime > 0 ? (
-            <Text style={styles.text}>
-              Playing for {user.currentTime} minues today
-            </Text>
+            <Text style={styles.text}>Playing for 87 minutes today</Text>
           ) : null}
           {user.maxTimeAllowed > 0 ? (
             <Text style={styles.text}>
-              Max allowed time {user.maxTimeAllowed}
+              <Text style={[styles.text, { fontWeight: "bold" }]}>
+                Max allowed time: {user.maxTimeAllowed} minutes
+              </Text>
             </Text>
           ) : null}
           <PrimaryButton
@@ -276,6 +307,30 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   lottie: {
+    width: 50,
+    height: 50,
+  },
+});
+
+const styles2 = StyleSheet.create({
+  box: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    height: 50,
+    marginTop: 10,
+  },
+  orange: {
+    backgroundColor: "orange",
+    width: 50,
+    height: 50,
+  },
+  red: {
+    backgroundColor: "red",
+    width: 50,
+    height: 50,
+  },
+  green: {
+    backgroundColor: "green",
     width: 50,
     height: 50,
   },
