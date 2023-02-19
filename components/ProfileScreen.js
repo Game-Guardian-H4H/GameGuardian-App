@@ -138,26 +138,6 @@ export const ProfileScreen = ({ navigation }) => {
           )}
         </ModalContainer>
       </Modal>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <ModalContainer closeModal={()=>setModalVisible(!modalVisible)}>
-          <Text style={styles.heading1}>Info</Text>
-          <Text style={styles.heading3}>Parental Control for Any Game</Text>
-          <Text style={styles.info}>
-            ・Parental control for Roblox Experience.{"\n"}
-            ・View status of games being played.{"\n"}
-            ・Pause game play.{"\n"}
-          </Text>
-        </ModalContainer>
-      </Modal>
     </View>
   );
 };
