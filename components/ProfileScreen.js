@@ -40,16 +40,6 @@ export const ProfileScreen = ({ navigation }) => {
 
   return (
     <View style={styles.section}>
-      <Align justifyContent={"space-between"}>
-        <Text style={styles.heading1}>Welcome</Text>
-        <Align justifyContent={"flex-end"}>
-          <IconButton name="plus" />
-          <IconButton
-            onPress={() => navigation.navigate('How To')}
-            name={"info"}
-          />
-        </Align>
-      </Align>
       <View
         style={{
           marginTop: 5,
@@ -59,7 +49,9 @@ export const ProfileScreen = ({ navigation }) => {
         <Container>
           {!paused && <Text style={styles.subHeading}>Currently Playing</Text>}
           <Text style={styles.heading2}>Roblox</Text>
-          <Text style={styles.text}>... has been playing for ... minutes.</Text>
+          <Text style={styles.text}>
+            ... has been playing for ... minutes.
+          </Text>
           <PrimaryButton
             name={"pause"}
             title={paused ? "Paused" : "Pause Current Game"}
