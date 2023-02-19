@@ -7,10 +7,13 @@ import { useState } from "react";
 import { ModalContainer } from "./lib/ModalContainer";
 import { Align } from "./lib/Align";
 import { IconButton } from "./lib/IconButton";
+import { Input } from "./lib/Input";
 
 export const ProfileScreen = ({ navigation }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [message, setMessage] = useState('');
 
   const [alertMessage, setAlertMessage] = useState(false);
 
@@ -34,7 +37,7 @@ export const ProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.section}>
       <Align justifyContent={"space-between"}>
-        <Text style={styles.heading1}>Welcome</Text>
+        <Text style={styles.heading1}>Pause</Text>
         <Align justifyContent={"flex-end"}>
           <IconButton name="plus" />
           <IconButton onPress={() => setModalVisible(true)} name={"info"} />
@@ -88,6 +91,11 @@ export const ProfileScreen = ({ navigation }) => {
           <Text style={styles.text}>
             Are you sure you want to pause the current game play? Note that changes will take time to be put in effect.
           </Text>
+          <Input
+            placeholder={'Input a message'}
+            onChange={setMessage}
+            value={message}
+          />
           <PrimaryButton
             title={"Pause Current Game"}
             type={"primary"}
