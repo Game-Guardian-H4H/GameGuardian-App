@@ -66,7 +66,7 @@ export const ProfileScreen = ({ navigation }) => {
           marginTop: 20,
         }}
       >
-        <Text style={styles.heading2}>Added Games</Text>
+        <Text style={styles.heading2}>Game History</Text>
         {gamesData.map((game) => (
           <Game
             key={game.name}

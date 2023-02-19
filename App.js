@@ -22,13 +22,14 @@ const Tab = createBottomTabNavigator();
 
 function App() {
   const [userId, setUserId] = React.useState('');
+  
   const [userInput, setUserInput] = React.useState('');
+  const [passwordInput, setPasswordInput] = React.useState('');
 
   return (
     <>
       {
         !userId ?
-
         <View
           style={{
             flex:1,
@@ -54,6 +55,11 @@ function App() {
               placeholder={"Input user ID"}
               onChange={setUserInput}
               value={userInput}
+            />
+            <Input
+              placeholder={"Password"}
+              onChange={setPasswordInput}
+              value={passwordInput}
             />
             <PrimaryButton
               type={'filled'}
@@ -92,22 +98,6 @@ function App() {
             />
           </Tab.Navigator>
         </NavigationContainer>
-
-        //   <Stack.Navigator>
-        //     <Stack.Screen
-        //       name="Profile"
-        //       component={ProfileScreen}
-        //       // options={{
-        //       //   headerRight: () => (
-        //       //     <IconButton
-        //       //       onPress={() => navigation.navigate('How To')}
-        //       //       name={"info"}
-        //       //     />
-        //       //   ),
-        //       // }}
-        //     />
-        //     <Stack.Screen name="How To" component={HowToScreen} />
-        //   </Stack.Navigator>
       }
     </>
   );

@@ -5,6 +5,7 @@ export const Input = (props) => {
   return (
     <TextInput
       style={{
+        marginTop:7,
         height: 40,
         borderWidth: 1,
         borderColor:'#E8E8E8',
@@ -16,7 +17,7 @@ export const Input = (props) => {
       value={props.value}
       placeholder={props.placeholder}
       placeholderTextColor="#808080"
-      keyboardType="text"
+      keyboardType={props.type ? props.type:"text"}
     />
   )
 }
