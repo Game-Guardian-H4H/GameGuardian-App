@@ -9,6 +9,7 @@ import { Align } from "./lib/Align";
 import { IconButton } from "./lib/IconButton";
 
 export const ProfileScreen = ({ navigation }) => {
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [alertMessage, setAlertMessage] = useState(false);
@@ -52,18 +53,48 @@ export const ProfileScreen = ({ navigation }) => {
           <PrimaryButton
             title={"Pause Current Game"}
             type={"primary"}
-            onPress={() => callFlaskAPI}
+            onPress={() => setConfirmModalVisible(true)}
           />
         </Container>
       </View>
-      {gamesData.map((game) => (
-        <Game
-          key={game.name}
-          title={game.name}
-          description={game.description}
-          src={{ uri: game.src }}
-        />
-      ))}
+
+      <View
+        style={{
+          marginTop:20
+        }}
+      >
+        <Text style={styles.heading2}>Added Games</Text>
+        {gamesData.map((game) => (
+          <Game
+            key={game.name}
+            title={game.name}
+            description={game.description}
+            src={{ uri: game.src }}
+          />
+        ))}
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={confirmModalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setConfirmModalVisible(!confirmModalVisible);
+        }}
+      >
+        <ModalContainer closeModal={()=>setConfirmModalVisible(!confirmModalVisible)}>
+          <Text style={styles.heading1}>Warning</Text>
+          <Text style={styles.text}>
+            Are you sure you want to pause the current game play? Note that changes will take time to be put in effect.
+          </Text>
+          <PrimaryButton
+            title={"Pause Current Game"}
+            type={"primary"}
+            onPress={() => callFlaskAPI()}
+          />
+        </ModalContainer>
+      </Modal>
 
       <Modal
         animationType="slide"
@@ -74,7 +105,7 @@ export const ProfileScreen = ({ navigation }) => {
           setModalVisible(!modalVisible);
         }}
       >
-        <ModalContainer>
+        <ModalContainer closeModal={()=>setModalVisible(!modalVisible)}>
           <Text style={styles.heading1}>Info</Text>
           <Text style={styles.heading3}>Parental Control for Any Game</Text>
           <Text style={styles.info}>
@@ -82,11 +113,6 @@ export const ProfileScreen = ({ navigation }) => {
             ・View status of games being played.{"\n"}
             ・Pause game play.{"\n"}
           </Text>
-          <PrimaryButton
-            title={"Close Modal"}
-            type={"secondary"}
-            onPress={() => setModalVisible(!modalVisible)}
-          />
         </ModalContainer>
       </Modal>
     </View>

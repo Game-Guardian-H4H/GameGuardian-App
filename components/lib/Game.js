@@ -23,14 +23,13 @@ const styles = StyleSheet.create({
     borderColor:'#F0F0F0',
     borderRadius:20,
     padding:20,
-    marginTop:10,
-    marginBottom:5,
+    marginBottom:10,
     flexDirection:'row',
   },
   logo:{
     width: 40,
     height: 40,
     marginRight:15,
-    borderRadius:10
+    borderRadius:10,
   }
 })

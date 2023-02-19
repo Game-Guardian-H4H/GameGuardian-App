@@ -1,11 +1,13 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 
-export const ModalContainer = ({children}) => {
+export const ModalContainer = (props) => {
   return (
-    <View
+    <Pressable
+      onPress={props.closeModal}
       style={{
         flex: 1,
+        backgroundColor:'rgba(255,255,255, 0.8)',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
@@ -13,7 +15,7 @@ export const ModalContainer = ({children}) => {
     >
       <View
         style={{
-          minWidth:360,
+          maxWidth:360,
           backgroundColor: 'white',
           borderRadius: 20,
           padding: 24,
@@ -29,8 +31,8 @@ export const ModalContainer = ({children}) => {
           elevation: 5,
         }}
       >
-        {children}
+        {props.children}
       </View>
-    </View>
+    </Pressable>
   )
 }
