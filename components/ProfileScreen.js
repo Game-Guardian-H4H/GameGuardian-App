@@ -10,38 +10,35 @@ import { END_POINT_BASE } from "./utlis/utils";
 import AnimatedLoader from "react-native-animated-loader";
 import { headings } from "./lib/headings";
 
-export const ProfileScreen = ({ navigation }) => {
+export const ProfileScreen = ({ navigation, userId }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-
-  const [alertMessage, setAlertMessage] = useState(false);
-
-
   const [loading, setLoading] = useState(false);
   const [paused, setPaused] = useState(false);
-  const callFlaskAPI = async () => {
+  const [message, setMessage] = useState("");
+
+  const callPauseAPI = () => {
     setLoading(true);
     try {
-      fetch(`${END_POINT_BASE}/api/getPauseState/1`)
+      fetch(`${END_POINT_BASE}/users/${userId}/pause`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isPaused: true,
+          pauseMessage: message,
+        }),
+      })
         .then((response) => {
-          alert(response);
-          const { data } = response;
-          if (response.ok) {
-            setAlertMessage(data);
-            setPaused(true);
-            setLoading(false);
-          } else {
-            console.log("Request failed");
-          }
+          setLoading(false);
+          setConfirmModalVisible(false);
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => console.error(error));
     } catch (error) {
       console.error("Error:", error);
     }
   };
-
-  const [message, setMessage] = useState("");
 
   return (
     <View style={styles.section}>
@@ -52,7 +49,9 @@ export const ProfileScreen = ({ navigation }) => {
         }}
       >
         <Container>
-          {!paused && <Text style={headings.subHeading}>Currently Playing</Text>}
+          {!paused && (
+            <Text style={headings.subHeading}>Currently Playing</Text>
+          )}
           <Text style={headings.heading2}>Roblox</Text>
           <Text style={styles.text}>... has been playing for ... minutes.</Text>
           <PrimaryButton
@@ -128,14 +127,17 @@ export const ProfileScreen = ({ navigation }) => {
               <PrimaryButton
                 title={"Pause Current Game"}
                 type={"primary"}
-                onPress={() => callFlaskAPI()}
+                onPress={callPauseAPI}
               />
               <AnimatedLoader
                 visible={loading}
                 overlayColor="rgba(255,255,255,0.75)"
                 animationStyle={styles.lottie}
-                speed={1}>
-                <Text style={[headings.heading3, {marginTop:20}]}>Loading</Text>
+                speed={1}
+              >
+                <Text style={[headings.heading3, { marginTop: 20 }]}>
+                  Loading
+                </Text>
               </AnimatedLoader>
             </View>
           )}
@@ -155,6 +157,6 @@ const styles = StyleSheet.create({
   },
   lottie: {
     width: 50,
-    height: 50
-  }
+    height: 50,
+  },
 });
