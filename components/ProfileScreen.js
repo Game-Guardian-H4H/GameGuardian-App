@@ -3,7 +3,7 @@ import PrimaryButton from "./lib/PrimaryButton";
 import { Container } from "./lib/Container";
 import { Game } from "./lib/Game";
 import { gamesData } from "../util/gamesDummyData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalContainer } from "./lib/ModalContainer";
 import { Input } from "./lib/Input";
 import { END_POINT_BASE } from "./utlis/utils";
@@ -15,6 +15,8 @@ export const ProfileScreen = ({ navigation, userId }) => {
   const [loading, setLoading] = useState(false);
   const [paused, setPaused] = useState(false);
   const [message, setMessage] = useState("");
+
+  const [success, setSuccess] = useState(false);
 
   const callPauseAPI = () => {
     setLoading(true);
@@ -29,16 +31,22 @@ export const ProfileScreen = ({ navigation, userId }) => {
           isPaused: true,
           pauseMessage: message,
         }),
-      })
-        .then((response) => {
-          setLoading(false);
-          setConfirmModalVisible(false);
-        })
-        .catch((error) => console.error(error));
+      }).then((response) => {
+        setLoading(false);
+        setConfirmModalVisible(false);
+        setSuccess(false);
+      }).catch((error) => console.error(error));
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccess(false);
+    }, 3000)
+  }, [success])
+  
 
   return (
     <View style={styles.section}>
@@ -48,6 +56,11 @@ export const ProfileScreen = ({ navigation, userId }) => {
           marginBottom: 5,
         }}
       >
+        {success &&
+          <Container>
+            <Text style={headings.heading2}>Paused</Text>
+          </Container>
+        }
         <Container>
           {!paused && (
             <Text style={headings.subHeading}>Currently Playing</Text>
@@ -91,7 +104,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
         <ModalContainer
           closeModal={() => setConfirmModalVisible(!confirmModalVisible)}
         >
-          {paused ? (
+          {paused ? 
             <View>
               <Text style={headings.heading1}>Warning</Text>
               <Text style={styles.text}>
@@ -111,8 +124,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
                 type={"filled"}
                 onPress={() => alert("Do something")}
               />
-            </View>
-          ) : (
+            </View>:
             <View>
               <Text style={headings.heading1}>Warning</Text>
               <Text style={styles.text}>
@@ -140,7 +152,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
                 </Text>
               </AnimatedLoader>
             </View>
-          )}
+          }
         </ModalContainer>
       </Modal>
     </View>
