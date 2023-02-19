@@ -3,36 +3,40 @@ import PrimaryButton from "./lib/PrimaryButton";
 import { Container } from "./lib/Container";
 import { Game } from "./lib/Game";
 import { gamesData } from "../util/gamesDummyData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalContainer } from "./lib/ModalContainer";
 import { Align } from "./lib/Align";
 import { IconButton } from "./lib/IconButton";
 import { Input } from "./lib/Input";
+import { END_POINT_BASE } from "./utlis/utils";
 
 export const ProfileScreen = ({ navigation }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [alertMessage, setAlertMessage] = useState(false);
-  const callFlaskAPI = (callback) => {
-    alert("pausing...");
-    setPaused(true);
-    fetch(`https://127.0.0.1:5000/pausegame`)
-      .then((response) => {
-        alert(response);
-        const { data } = response;
-        if (response.ok) {
-          setAlertMessage(data);
-        } else {
-          console.log("Request failed");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+  const callFlaskAPI = async () => {
+    try {
+      fetch(`${END_POINT_BASE}/api/pausegame`)
+        .then((response) => {
+          alert(response);
+          const { data } = response;
+          if (response.ok) {
+            setAlertMessage(data);
+          } else {
+            console.log("Request failed");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [paused, setPaused] = useState(false);
 
   return (
@@ -55,8 +59,8 @@ export const ProfileScreen = ({ navigation }) => {
           <Text style={styles.heading2}>Roblox</Text>
           <Text style={styles.text}>... has been playing for ... minutes.</Text>
           <PrimaryButton
-            title={paused ? "Paused":"Pause Current Game"}
-            type={paused ? "secondary":"primary"}
+            title={paused ? "Paused" : "Pause Current Game"}
+            type={paused ? "secondary" : "primary"}
             onPress={() => setConfirmModalVisible(true)}
           />
         </Container>
@@ -64,7 +68,7 @@ export const ProfileScreen = ({ navigation }) => {
 
       <View
         style={{
-          marginTop:20
+          marginTop: 20,
         }}
       >
         <Text style={styles.heading2}>Added Games</Text>
@@ -87,12 +91,15 @@ export const ProfileScreen = ({ navigation }) => {
           setConfirmModalVisible(!confirmModalVisible);
         }}
       >
-        <ModalContainer closeModal={()=>setConfirmModalVisible(!confirmModalVisible)}>
-          {paused ?
+        <ModalContainer
+          closeModal={() => setConfirmModalVisible(!confirmModalVisible)}
+        >
+          {paused ? (
             <View>
               <Text style={styles.heading1}>Warning</Text>
               <Text style={styles.text}>
-                Are you sure you want to pause the current game play? Note that changes will take time to be put in effect.
+                Are you sure you want to pause the current game play? Note that
+                changes will take time to be put in effect.
               </Text>
               <PrimaryButton
                 title={"Unpause"}
@@ -107,16 +114,16 @@ export const ProfileScreen = ({ navigation }) => {
                 type={"filled"}
                 onPress={() => alert("Do something")}
               />
-            </View>:
+            </View>
+          ) : (
             <View>
-              <Text style={styles.heading1}>
-                Warning
-              </Text>
+              <Text style={styles.heading1}>Warning</Text>
               <Text style={styles.text}>
-                Are you sure you want to pause the current game play? Note that changes will take time to be put in effect.
+                Are you sure you want to pause the current game play? Note that
+                changes will take time to be put in effect.
               </Text>
               <Input
-                placeholder={'Input a message'}
+                placeholder={"Input a message"}
                 onChange={setMessage}
                 value={message}
               />
@@ -126,7 +133,7 @@ export const ProfileScreen = ({ navigation }) => {
                 onPress={() => callFlaskAPI()}
               />
             </View>
-          }
+          )}
         </ModalContainer>
       </Modal>
 
@@ -139,7 +146,7 @@ export const ProfileScreen = ({ navigation }) => {
           setModalVisible(!modalVisible);
         }}
       >
-        <ModalContainer closeModal={()=>setModalVisible(!modalVisible)}>
+        <ModalContainer closeModal={() => setModalVisible(!modalVisible)}>
           <Text style={styles.heading1}>Info</Text>
           <Text style={styles.heading3}>Parental Control for Any Game</Text>
           <Text style={styles.info}>
