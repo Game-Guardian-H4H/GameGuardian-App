@@ -2,7 +2,7 @@ import { Button, StyleSheet, Text } from "react-native";
 import PrimaryButton from "./lib/PrimaryButton";
 import { View } from "react-native";
 
-export const HomeScreen = ({navigation}) => {
+export const OnboardingScreen = ({navigation}) => {
   return (
     <>
       <View style={styles.section}>
@@ -10,6 +10,11 @@ export const HomeScreen = ({navigation}) => {
           <Text style={styles.heading}>
             Parental Control{"\n"}
             for Any Game
+          </Text>
+          <Text style={styles.info}>
+            ・Parental control for Roblox Experience.{"\n"}
+            ・View status of games being played.{"\n"}
+            ・Pause game play.{"\n"}
           </Text>
         </View>
 
@@ -19,9 +24,10 @@ export const HomeScreen = ({navigation}) => {
             title={"Getting Started"}
             type={'primary'}
             onPress={() =>
-              navigation.navigate('Profile')
+              navigation.replace("Profile")
             }
           />
+
           <PrimaryButton
             title={"How to use"}
             type={'secondary'}
@@ -49,4 +55,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: '#000',
   },
+  info:{
+    marginTop:15,
+    fontSize:15
+  }
 });
