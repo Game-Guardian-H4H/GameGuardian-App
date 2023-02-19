@@ -9,13 +9,18 @@ import { Align } from "./lib/Align";
 import { IconButton } from "./lib/IconButton";
 import { Input } from "./lib/Input";
 import { END_POINT_BASE } from "./utlis/utils";
+import AnimatedLoader from "react-native-animated-loader";
 
 export const ProfileScreen = ({ navigation }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
 
   const [alertMessage, setAlertMessage] = useState(false);
 
+
+  const [loading, setLoading] = useState(false);
+  const [paused, setPaused] = useState(false);
   const callFlaskAPI = async () => {
+    setLoading(true);
     try {
       fetch(`${END_POINT_BASE}/api/getPauseState/1`)
         .then((response) => {
@@ -23,6 +28,8 @@ export const ProfileScreen = ({ navigation }) => {
           const { data } = response;
           if (response.ok) {
             setAlertMessage(data);
+            setPaused(true);
+            setLoading(false);
           } else {
             console.log("Request failed");
           }
@@ -36,7 +43,6 @@ export const ProfileScreen = ({ navigation }) => {
   };
 
   const [message, setMessage] = useState("");
-  const [paused, setPaused] = useState(false);
 
   return (
     <View style={styles.section}>
@@ -125,6 +131,13 @@ export const ProfileScreen = ({ navigation }) => {
                 type={"primary"}
                 onPress={() => callFlaskAPI()}
               />
+              <AnimatedLoader
+                visible={loading}
+                overlayColor="rgba(255,255,255,0.75)"
+                animationStyle={styles.lottie}
+                speed={1}>
+                <Text style={[styles.heading3, {marginTop:20}]}>Loading...</Text>
+              </AnimatedLoader>
             </View>
           )}
         </ModalContainer>
@@ -171,4 +184,9 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 10,
   },
+
+  lottie: {
+    width: 100,
+    height: 100
+  }
 });
