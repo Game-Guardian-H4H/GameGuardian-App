@@ -5,8 +5,8 @@ import { Game } from "./lib/Game";
 import { gamesData } from "../util/gamesDummyData";
 import { useState } from "react";
 import { ModalContainer } from "./lib/ModalContainer";
-import Icon from 'react-native-vector-icons/Feather';
 import { Align } from "./lib/Align";
+import { IconButton } from "./lib/IconButton";
 
 export const ProfileScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,22 +15,13 @@ export const ProfileScreen = ({navigation}) => {
       <Align justifyContent={'space-between'}>
         <Text style={styles.heading1}>Welcome</Text>
         <Align justifyContent={'flex-end'}>
-          <Icon
+          <IconButton
             name="plus"
-            size={20}
-            color="black"
-            style={{marginRight:10}}
           />
-          <Pressable
+          <IconButton
             onPress={()=> setModalVisible(true)}
-          >
-            <Icon
-              name="info"
-              size={20}
-              color="black"
-              style={{marginRight:10}}
-            />
-          </Pressable>
+            name={"info"}
+          />
         </Align>
       </Align>
       <View
