@@ -17,7 +17,7 @@ export const ProfileScreen = ({ navigation }) => {
 
   const callFlaskAPI = async () => {
     try {
-      fetch(`${END_POINT_BASE}/api/pausegame`)
+      fetch(`${END_POINT_BASE}/api/getPauseState/1`)
         .then((response) => {
           alert(response);
           const { data } = response;
@@ -49,9 +49,7 @@ export const ProfileScreen = ({ navigation }) => {
         <Container>
           {!paused && <Text style={styles.subHeading}>Currently Playing</Text>}
           <Text style={styles.heading2}>Roblox</Text>
-          <Text style={styles.text}>
-            ... has been playing for ... minutes.
-          </Text>
+          <Text style={styles.text}>... has been playing for ... minutes.</Text>
           <PrimaryButton
             name={"pause"}
             title={paused ? "Paused" : "Pause Current Game"}
