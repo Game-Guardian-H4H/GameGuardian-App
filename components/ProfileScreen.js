@@ -1,15 +1,14 @@
-import { Button, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Modal, StyleSheet, Text, View } from "react-native";
 import PrimaryButton from "./lib/PrimaryButton";
 import { Container } from "./lib/Container";
 import { Game } from "./lib/Game";
 import { gamesData } from "../util/gamesDummyData";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ModalContainer } from "./lib/ModalContainer";
-import { Align } from "./lib/Align";
-import { IconButton } from "./lib/IconButton";
 import { Input } from "./lib/Input";
 import { END_POINT_BASE } from "./utlis/utils";
 import AnimatedLoader from "react-native-animated-loader";
+import { headings } from "./lib/headings";
 
 export const ProfileScreen = ({ navigation }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
@@ -53,8 +52,8 @@ export const ProfileScreen = ({ navigation }) => {
         }}
       >
         <Container>
-          {!paused && <Text style={styles.subHeading}>Currently Playing</Text>}
-          <Text style={styles.heading2}>Roblox</Text>
+          {!paused && <Text style={headings.subHeading}>Currently Playing</Text>}
+          <Text style={headings.heading2}>Roblox</Text>
           <Text style={styles.text}>... has been playing for ... minutes.</Text>
           <PrimaryButton
             name={"pause"}
@@ -70,7 +69,7 @@ export const ProfileScreen = ({ navigation }) => {
           marginTop: 20,
         }}
       >
-        <Text style={styles.heading2}>Game History</Text>
+        <Text style={headings.heading2}>Game History</Text>
         {gamesData.map((game) => (
           <Game
             key={game.name}
@@ -95,7 +94,7 @@ export const ProfileScreen = ({ navigation }) => {
         >
           {paused ? (
             <View>
-              <Text style={styles.heading1}>Warning</Text>
+              <Text style={headings.heading1}>Warning</Text>
               <Text style={styles.text}>
                 Are you sure you want to pause the current game play? Note that
                 changes will take time to be put in effect.
@@ -116,7 +115,7 @@ export const ProfileScreen = ({ navigation }) => {
             </View>
           ) : (
             <View>
-              <Text style={styles.heading1}>Warning</Text>
+              <Text style={headings.heading1}>Warning</Text>
               <Text style={styles.text}>
                 Are you sure you want to pause the current game play? Note that
                 changes will take time to be put in effect.
@@ -136,7 +135,7 @@ export const ProfileScreen = ({ navigation }) => {
                 overlayColor="rgba(255,255,255,0.75)"
                 animationStyle={styles.lottie}
                 speed={1}>
-                <Text style={[styles.heading3, {marginTop:20}]}>Loading...</Text>
+                <Text style={[headings.heading3, {marginTop:20}]}>Loading</Text>
               </AnimatedLoader>
             </View>
           )}
@@ -149,44 +148,13 @@ export const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   section: {
     flex: 1,
-    // justifyContent:'space-between',
-    // backgroundColor: "white",
     padding: 24,
-  },
-  heading1: {
-    fontWeight: "bold",
-    letterSpacing: -1,
-    fontSize: 30,
-    color: "#000",
-    marginBottom: 10,
-  },
-  subHeading: {
-    fontWeight: "bold",
-    letterSpacing: -0.5,
-    fontSize: 13,
-    color: "#A9A9A9",
-    marginBottom: 10,
-  },
-  heading2: {
-    fontWeight: "bold",
-    letterSpacing: -0.5,
-    fontSize: 20,
-    color: "#000",
-    marginBottom: 10,
-  },
-  heading3: {
-    fontWeight: "bold",
-    letterSpacing: -0.5,
-    fontSize: 17,
-    color: "#000",
-    marginBottom: 10,
   },
   text: {
     marginBottom: 10,
   },
-
   lottie: {
-    width: 100,
-    height: 100
+    width: 50,
+    height: 50
   }
 });

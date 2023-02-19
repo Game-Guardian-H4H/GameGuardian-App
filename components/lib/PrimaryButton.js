@@ -1,8 +1,5 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
-import { Align } from './Align';
-import Icon from 'react-native-vector-icons/Feather';
-
 
 export default function PrimaryButton(props) {
   let textColor;

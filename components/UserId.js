@@ -1,8 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Container } from './lib/Container'
 import { Input } from './lib/Input';
 import PrimaryButton from './lib/PrimaryButton';
+import { headings } from './lib/headings';
 
 export default function UserId({setUserId}) {
   const [userInput, setUserInput] = React.useState('');
@@ -22,7 +23,7 @@ export default function UserId({setUserId}) {
             minWidth:300
           }}
         >
-          <Text style={styles.heading1}>
+          <Text style={headings.heading1}>
             Welcome
           </Text>
           <Text>
@@ -43,13 +44,3 @@ export default function UserId({setUserId}) {
     </View>
   )
 };
-
-const styles = StyleSheet.create({
-  heading1: {
-    fontWeight: "bold",
-    letterSpacing: -1,
-    fontSize: 30,
-    color: "#000",
-    marginBottom: 10,
-  },
-})
