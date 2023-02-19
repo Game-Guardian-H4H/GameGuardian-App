@@ -5,10 +5,10 @@ import LinearGradient from 'react-native-linear-gradient';
 export default function PrimaryButton(props) {
   const { onPress, title = 'Save' } = props;
   let text;
-  if (props.type == "primary") {
-    text="light" 
+  if (props.type == "secondary") {
+    text="dark"
   }else{
-    text="dark" 
+    text="light" 
   }
   return (
     <Pressable style={styles[props.type]} onPress={onPress}>
@@ -38,6 +38,18 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     backgroundColor:'#F0F0F0',
+    borderRadius:12,
+
+    marginTop:7
+  },
+  filled: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor:'black',
     borderRadius:12,
 
     marginTop:7

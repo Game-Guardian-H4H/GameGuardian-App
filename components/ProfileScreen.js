@@ -13,12 +13,10 @@ export const ProfileScreen = ({ navigation }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [message, setMessage] = useState('');
-
   const [alertMessage, setAlertMessage] = useState(false);
-
   const callFlaskAPI = (callback) => {
     alert("pausing...");
+    setPaused(true);
     fetch(`https://127.0.0.1:5000/pausegame`)
       .then((response) => {
         alert(response);
@@ -34,10 +32,13 @@ export const ProfileScreen = ({ navigation }) => {
       });
   };
 
+  const [message, setMessage] = useState('');
+  const [paused, setPaused] = useState(false);
+
   return (
     <View style={styles.section}>
       <Align justifyContent={"space-between"}>
-        <Text style={styles.heading1}>Pause</Text>
+        <Text style={styles.heading1}>Welcome</Text>
         <Align justifyContent={"flex-end"}>
           <IconButton name="plus" />
           <IconButton onPress={() => setModalVisible(true)} name={"info"} />
@@ -54,8 +55,8 @@ export const ProfileScreen = ({ navigation }) => {
           <Text style={styles.heading2}>Roblox</Text>
           <Text style={styles.text}>... has been playing for ... minutes.</Text>
           <PrimaryButton
-            title={"Pause Current Game"}
-            type={"primary"}
+            title={paused ? "Paused":"Pause Current Game"}
+            type={paused ? "secondary":"primary"}
             onPress={() => setConfirmModalVisible(true)}
           />
         </Container>
@@ -87,20 +88,45 @@ export const ProfileScreen = ({ navigation }) => {
         }}
       >
         <ModalContainer closeModal={()=>setConfirmModalVisible(!confirmModalVisible)}>
-          <Text style={styles.heading1}>Warning</Text>
-          <Text style={styles.text}>
-            Are you sure you want to pause the current game play? Note that changes will take time to be put in effect.
-          </Text>
-          <Input
-            placeholder={'Input a message'}
-            onChange={setMessage}
-            value={message}
-          />
-          <PrimaryButton
-            title={"Pause Current Game"}
-            type={"primary"}
-            onPress={() => callFlaskAPI()}
-          />
+          {paused ?
+            <View>
+              <Text style={styles.heading1}>Warning</Text>
+              <Text style={styles.text}>
+                Are you sure you want to pause the current game play? Note that changes will take time to be put in effect.
+              </Text>
+              <PrimaryButton
+                title={"Unpause"}
+                type={"primary"}
+                onPress={() => {
+                  setPaused(false);
+                  alert("Unpausing...");
+                }}
+              />
+              <PrimaryButton
+                title={"Force Exit"}
+                type={"filled"}
+                onPress={() => alert("Do something")}
+              />
+            </View>:
+            <View>
+              <Text style={styles.heading1}>
+                Warning
+              </Text>
+              <Text style={styles.text}>
+                Are you sure you want to pause the current game play? Note that changes will take time to be put in effect.
+              </Text>
+              <Input
+                placeholder={'Input a message'}
+                onChange={setMessage}
+                value={message}
+              />
+              <PrimaryButton
+                title={"Pause Current Game"}
+                type={"primary"}
+                onPress={() => callFlaskAPI()}
+              />
+            </View>
+          }
         </ModalContainer>
       </Modal>
 
