@@ -170,7 +170,9 @@ export const ProfileScreen = ({ navigation, userId }) => {
             </Text>
           ) : null}
           {user.currentTime > 0 ? (
-            <Text style={styles.text}>Playing for 87 minutes today</Text>
+            <Text style={styles.text}>
+              Playing for {user.currentTime} minutes today
+            </Text>
           ) : null}
           {user.maxTimeAllowed > 0 ? (
             <Text style={styles.text}>
