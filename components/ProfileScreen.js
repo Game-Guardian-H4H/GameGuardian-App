@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Button, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import PrimaryButton from "./lib/PrimaryButton";
 import { Container } from "./lib/Container";
 import { Game } from "./lib/Game";
@@ -11,7 +11,6 @@ import { Input } from "./lib/Input";
 
 export const ProfileScreen = ({ navigation }) => {
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
 
   const [alertMessage, setAlertMessage] = useState(false);
   const callFlaskAPI = (callback) => {
@@ -41,7 +40,10 @@ export const ProfileScreen = ({ navigation }) => {
         <Text style={styles.heading1}>Welcome</Text>
         <Align justifyContent={"flex-end"}>
           <IconButton name="plus" />
-          <IconButton onPress={() => setModalVisible(true)} name={"info"} />
+          <IconButton
+            onPress={() => navigation.navigate('How To')}
+            name={"info"}
+          />
         </Align>
       </Align>
       <View
@@ -51,7 +53,7 @@ export const ProfileScreen = ({ navigation }) => {
         }}
       >
         <Container>
-          <Text style={styles.subHeading}>Playing</Text>
+          {!paused && <Text style={styles.subHeading}>Currently Playing</Text>}
           <Text style={styles.heading2}>Roblox</Text>
           <Text style={styles.text}>... has been playing for ... minutes.</Text>
           <PrimaryButton
@@ -127,26 +129,6 @@ export const ProfileScreen = ({ navigation }) => {
               />
             </View>
           }
-        </ModalContainer>
-      </Modal>
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <ModalContainer closeModal={()=>setModalVisible(!modalVisible)}>
-          <Text style={styles.heading1}>Info</Text>
-          <Text style={styles.heading3}>Parental Control for Any Game</Text>
-          <Text style={styles.info}>
-            ・Parental control for Roblox Experience.{"\n"}
-            ・View status of games being played.{"\n"}
-            ・Pause game play.{"\n"}
-          </Text>
         </ModalContainer>
       </Modal>
     </View>

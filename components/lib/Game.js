@@ -1,17 +1,24 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { Align } from './Align'
+import { IconButton } from './IconButton'
 
 export const Game = (props) => {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={props.src}
+      <Align>
+        <Image
+          style={styles.logo}
+          source={props.src}
+        />
+        <View>
+          <Text>{props.title}</Text>
+          <Text>{props.description}</Text>
+        </View>
+      </Align>
+      <IconButton
+        name={"bar-chart-2"}
       />
-      <View>
-        <Text>{props.title}</Text>
-        <Text>{props.description}</Text>
-      </View>
     </View>
   )
 }

@@ -1,18 +1,33 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { Align } from './Align';
 
 export default function PrimaryButton(props) {
-  const { onPress, title = 'Save' } = props;
-  let text;
+  let textColor;
   if (props.type == "secondary") {
-    text="dark"
+    textColor="dark"
   }else{
-    text="light" 
+    textColor="light" 
   }
   return (
-    <Pressable style={styles[props.type]} onPress={onPress}>
-      <Text style={styles[text]}>{title}</Text>
+    <Pressable
+      style={styles[props.type]}
+      onPress={props.onPress}
+    >
+      <Align>
+        {props.name &&        
+          <Icon
+            name={props.name}
+            style={styles[textColor]}
+            size={20}
+            color="black"
+          />
+        }
+        <Text style={[styles.text, styles[textColor]]}>
+          {props.title}
+        </Text>
+      </Align>
     </Pressable>
   );
 }
@@ -54,18 +69,16 @@ const styles = StyleSheet.create({
 
     marginTop:7
   },
-  light: {
+  text:{
     fontSize: 16,
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: -0.25,
+  },
+  light: {
     color: 'white',
   },
   dark: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: -0.25,
     color: 'black',
   },
 });
