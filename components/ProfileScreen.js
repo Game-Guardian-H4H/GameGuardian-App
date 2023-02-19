@@ -105,12 +105,18 @@ export const ProfileScreen = ({ navigation, userId }) => {
         .then((response) => {
           setLoading(false);
           setTimeModalVisible(false);
+          setConfirmModalVisible(false);
           setUser({ ...user, maxTimeAllowed: time });
         })
         .catch((error) => console.error(error));
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const forceQuit = () => {
+    setTime(-1);
+    callModifyMaxTime();
   };
 
   return (
@@ -221,7 +227,7 @@ export const ProfileScreen = ({ navigation, userId }) => {
               <PrimaryButton
                 title={"Force Exit"}
                 type={"filled"}
-                onPress={() => alert("Do something")}
+                onPress={forceQuit}
               />
             </View>
           ) : (
